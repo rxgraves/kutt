@@ -8,9 +8,10 @@ ENV NODE_ENV=production
 WORKDIR /kutt
 
 # download dependencies while using Docker's caching
+# This line has been updated to fix the cache mount error
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
+    --mount=type=cache,id=npm,target=/root/.npm \
     npm ci --omit=dev
 
 RUN mkdir -p /var/lib/kutt
